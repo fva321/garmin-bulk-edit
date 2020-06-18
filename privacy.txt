@@ -1,0 +1,15 @@
+jQuery.getJSON(
+    'https://connect.garmin.com/modern/proxy/activitylist-service/activities/search/activities?limit=1',
+    function(act_list) {
+        act_list.forEach(
+            function(act) {
+                fetch('https://connect.garmin.com/modern/proxy/activity-service/activity/' + act['activityId'], {
+                    'headers': { 'Content-Type': 'application/json', 'NK': 'NT', 'X-HTTP-Method-Override': 'PUT' },
+                    'body': '{"accessControlRuleDTO":{"typeKey":"private"},"activityId":' + act['activityId'] + '}',
+                    'method': 'POST'
+                });
+                console.dir(act['activityId'], act['activityName'], act['startTimeLocal']);
+            }
+        );
+    }
+);
